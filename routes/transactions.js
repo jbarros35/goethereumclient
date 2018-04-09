@@ -7,8 +7,20 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
   // set the provider you want from Web3.providers
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+ // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+ var web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:8546"));
 }
+
+console.log(web3.version);
+
+web3.eth.subscribe('pendingTransactions', function(err, res) {
+    console.log('Here')
+    console.log(err)
+    console.log(res)
+}).on('data', function(transaction) {
+    console.log('Here 2')
+    console.log(transaction)
+});
 
 router.post('/sendTransaction', function(req, res, next) {
 	try {
@@ -29,6 +41,7 @@ router.post('/sendTransaction', function(req, res, next) {
 		next(e);
 	}
 });
+
 /* doesn't works on http provider
 web3.eth.filter("pending").watch(
     function(error,result){

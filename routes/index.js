@@ -47,24 +47,27 @@ router.post('/getBalance', function(req, res, next) {
 router.post('/unlockAccount', function(req, res, next) {
 	try {
 		var address = req.body.address;
-		var password = req.body.password;		
+		var password = req.body.password;
 		web3.eth.personal.unlockAccount(address, password, 600)
 		.then((response) => {
-			res.status(200).json(response);
+			console.log(response);
+			res.status(200).json({response: 'ok'});
 		}).catch((error) => {
-			res.status(500).json(error);
+			console.log('error'+error);
+			res.status(500).json({error: error});
 		});
 	} catch(e) {
 		next(e);
 	}
 });
+
 // create account
 router.post('/createAccount', function(req, res, next) {
 	try {
 		var password = req.body.password;	
 		web3.eth.personal.newAccount(password)
 		.then((response) => {
-			res.status(200).json(response);
+			res.status(200).json({address: response});
 		}).catch((error) => {
 			console.log(error);
 			res.status(500).json(error);

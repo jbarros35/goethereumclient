@@ -7,7 +7,15 @@ block content
    div(class="panel-body")
     p Welcome to #{title}
     div(ng-app="myApp" ng-controller="ballOutCtrl")
+     div(class="panel-footer")
+      div(class="btn-group")
+       button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('unlock')") Unlock Account
+       button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('create')") Create
      div
+      br
+      div(class="alert alert-{{messageType}} alert-dismissible fade in" ng-show="showMessage")
+       a(href="#" class="close" data-dismiss="alert" aria-label="close")&times;
+       {{ResponseDetails}}
       form(action="" method="POST" class="wrapper" name="submitForm")
         div(class="form-group")
          label(for="numPedidoBase") Proposal Title:
@@ -15,7 +23,7 @@ block content
           span(ng-show="submitForm.title.$error.required") Title is mandatory
         div(class="form-group")
          textarea(class="form-control" cols="150" rows="5" name="description" required ng-model="description")
-         span(ng-show="submitForm.description.$error.required") Description is mandatory
+         span(ng-show="submitForm.description.$error.required")
         div(class="form-group")
          label(for="area") Area of interest:
           select(type="text" class="form-control" name="area" ng-model="area")           
@@ -26,25 +34,25 @@ block content
          span(ng-show="submitForm.area.$error.required") Interest area is mandatory
        div(class="panel-footer")
         div(class="btn-group")
-         button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal") Submit
+         button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('submitBallout')") Submit
          button(type="button" class="btn btn-default" ng-click="cleanForm()") Clean
-    div(id="myModal" class="modal fade" role="dialog")
-      div(class="modal-dialog")
-        div(class="modal-content")
-          div(class="modal-header")
-            button(type="button" class="close" data-dismiss="modal")
-            h4(class="modal-title") Blockchain Authentication
-          div(class="modal-body")
-            p Please put your address and your password for submiting your proposal.
-            div(class="form-group")
-             label(for="numPedidoBase") Your public address:
-              input(type="text" class="form-control" name="title" ng-model="address")
-              span(ng-show="submitForm.address.$error.required") Address is mandatory
-            div(class="form-group")
-             label(for="numPedidoBase") Password:
-              input(type="text" class="form-control" name="password" ng-model="password")
-              span(ng-show="submitForm.password.$error.required") Password is mandatory
-          div(class="modal-footer")
-            div(class="btn-group")
-             button(type="button" class="btn btn-default" data-dismiss="modal") Close
-             button(type="button" class="btn btn-default") Submit
+      div(id="myModal" class="modal fade" role="dialog" my-modal)
+        div(class="modal-dialog")
+          div(class="modal-content")
+            div(class="modal-header")
+              button(type="button" class="close" data-dismiss="modal")
+              h4(class="modal-title") Blockchain Authentication
+            div(class="modal-body")
+              p Please put your address and your password.
+              div(class="form-group" ng-show="commandId=='unlock' || commandId=='submitBallout'")
+               label(for="address") Your public address:
+                input(type="text" class="form-control" name="address" ng-model="address")
+                span(ng-show="submitForm.address.$error.required") Address is mandatory
+              div(class="form-group")
+               label(for="numPedidoBase") Password:
+                input(type="password" class="form-control" name="password" ng-model="password")
+                span(ng-show="submitForm.password.$error.required") Password is mandatory
+            div(class="modal-footer")
+              div(class="btn-group")
+               button(type="button" class="btn btn-default" data-dismiss="modal") Close
+               button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="submitCommand()") Submit
