@@ -1,3 +1,3 @@
 geth --datadir ./myDataDir --networkid 1114 --rpc --rpcapi web3,eth,personal,miner,net,txpool --rpcport 8545 --rpcaddr localhost --rpccorsdomain "*"
 
-geth --datadir ./myDataDir --networkid 1114 --ws --wsorigins="*" --wsapi "db,eth,net,ssh,miner,web3,personal,admin" --rpc --rpcapi "web3,eth,personal,miner,net,txpool" --rpccorsdomain "*"
+nohup geth --datadir ./myDataDir --networkid 1114 --ws --wsorigins="*" --wsapi "db,eth,net,ssh,miner,web3,personal,admin" --rpc --rpcapi "web3,eth,personal,miner,net,txpool" --rpccorsdomain "*" --ipcdisable &
