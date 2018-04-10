@@ -86,7 +86,8 @@ app.controller('ballOutCtrl', function($scope, $http) {
    // if user is running mozilla then use it's built-in WebSocket
   window.WebSocket = window.WebSocket || window.MozWebSocket;
 
-  var connection = new WebSocket('wss://localhost:8000', 'echo-protocol');
+  // var connection = new WebSocket('ws://localhost:443', 'echo-protocol');
+  var connection = new WebSocket('wss://ec2-35-176-165-139.eu-west-2.compute.amazonaws.com:443', 'echo-protocol');
 
   connection.onopen = function () {
     // connection is opened and ready to use
@@ -96,6 +97,7 @@ app.controller('ballOutCtrl', function($scope, $http) {
 
   connection.onerror = function (error) {
     // an error occurred when sending/receiving data
+   console.log('err: '+error);
   };
 
   connection.onmessage = function (message) {

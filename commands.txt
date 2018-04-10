@@ -1,3 +1,10 @@
+sudo pm2 start npm -- start
+
+sudo pm2 start websocket.js
+
+pm2 logs
+
+pm2 monit
 
 geth --datadir ./myDataDir --networkid 1114 --rpc --rpcapi web3,eth,personal,miner,net,txpool --rpcport 8545 --rpcaddr localhost --rpccorsdomain "*"
 
