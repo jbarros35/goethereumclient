@@ -1,4 +1,3 @@
-// var WebSocketServer = require('websocket').server;
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
@@ -15,7 +14,7 @@ var app = express();
 var options = {
   key: privateKey,
   cert: certificate,
-  passphrase: '123456'
+  passphrase: process.env.ENV_CERTPASS
 };
 
 var server = https.createServer(options, function (req, res) {
@@ -40,63 +39,17 @@ ws.on('message', function incoming(message) {
 
 server.listen(443);
 
-/*
-wsServer = new WebSocketServer({
-    httpServer: server,
-    // You should not use autoAcceptConnections for production
-    // applications, as it defeats all standard cross-origin protection
-    // facilities built into the protocol and the browser.  You should
-    // always verify the connection's origin and decide whether or not
-    // to accept it.
-    autoAcceptConnections: false
-});
-
-function originIsAllowed(origin) {
-  // put logic here to detect whether the specified origin is allowed.
-  return true;
-}
-
-wsServer.on('request', function(request) {
-    if (!originIsAllowed(request.origin)) {
-      // Make sure we only accept requests from an allowed origin
-      request.reject();
-      console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-      return;
-    }
-
-    var connection = request.accept('echo-protocol', request.origin);
-    console.log((new Date()) + ' Connection accepted.');
-    connection.on('message', function(message) {
-		console.log(message.type);
-        if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF({response:'ok'});
-        }
-
-        else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
-        }
-    });
-
-    connection.on('close', function(reasonCode, description) {
-        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-    });
-
-});
-*/
-
-
 tail = new Tail("/home/ubuntu/geth/nohup.out");
 
 tail.on("line", function(data) {
   
 wss.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
+  console.log(data);
+  if (ws.isAlive === false) return ws.terminate();
     ws.isAlive = false;
     ws.ping(data);
   });
-console.log(data);
+
 });
 
 tail.on("error", function(error) {
@@ -104,4 +57,3 @@ tail.on("error", function(error) {
 });
 
 tail.watch();
-
