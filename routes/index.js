@@ -1,7 +1,7 @@
 var express = require('express');
 var Web3 = require('web3');
-
 var router = express.Router();
+require('dotenv').config();
 
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
@@ -15,6 +15,11 @@ web3.eth.getCoinbase(function(err, cb) { console.log(err, cb); })
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Proposal Blockchain System' });
+});
+
+router.get("/getenv", function(req, res) {
+    var env = process.env.ENV_SERVER;
+    res.json({url: env});
 });
 
 router.get('/coinbase', function(req, res, next) {

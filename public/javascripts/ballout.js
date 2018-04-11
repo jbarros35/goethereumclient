@@ -82,12 +82,25 @@ app.controller('ballOutCtrl', function($scope, $http) {
 				$scope.ResponseDetails = "Error on unlocking your account, address or passphrase invalid.";
 			});
    };
-   
+
+// Load websocket server url param
+$http.get('/getenv')
+      .success(function(data) {
+          console.log(data.url);
+          var wsserver = data.url;
+       $scope.openws(wsserver);
+   })
+     .error(function(data) {
+       console.log('error getting websocket variable, set it inside the .env file.');
+       return;
+   });
+
+
+$scope.openws = function(wsserver) {
    // if user is running mozilla then use it's built-in WebSocket
   window.WebSocket = window.WebSocket || window.MozWebSocket;
 
-  // var connection = new WebSocket('ws://localhost:443', 'echo-protocol');
-  var connection = new WebSocket('wss://ec2-35-176-165-139.eu-west-2.compute.amazonaws.com:443', 'echo-protocol');
+  var connection = new WebSocket('wss://'+wsserver, 'echo-protocol');
 
   connection.onopen = function () {
     // connection is opened and ready to use
@@ -121,5 +134,7 @@ app.controller('ballOutCtrl', function($scope, $http) {
    id: "client1"
    }));
   };
-  
+};
+
+
 });
