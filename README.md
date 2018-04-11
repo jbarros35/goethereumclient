@@ -24,8 +24,16 @@ Set .env file to ENV_CERTPASS=123456 or your certification passphrase.
 ```
 
 Import your certificate in the browser, websockets won't workts without a https transport!
+
+Install pm2 feature for monitoring and starting node instances as bellow
+```
+npm install pm2 -g
+```
+
+```
 pm2 start node websocket.js
 pm2 start npm start --
+```
 
 ## Next steps
 
