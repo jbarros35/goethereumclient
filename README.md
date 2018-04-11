@@ -28,6 +28,7 @@ We don't expose the network for the outside, cors are not used in this demo, so 
 ```
 Set .env file to ENV_SERVER=localhost:43 or any url with https available.
 Set .env file to ENV_CERTPASS=123456 or your certification passphrase.
+Set .env file to ENV_GETHLOG for geth log full file path.
 ```
 
 Import your certificate in the browser, websockets won't workts without a https transport!
