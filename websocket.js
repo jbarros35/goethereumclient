@@ -1,3 +1,4 @@
+require('dotenv').config();
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
@@ -10,11 +11,12 @@ var certificate = fs.readFileSync('./cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 var express = require('express');
 var app = express();
+var certpass = process.env.ENV_CERTPASS;
 
 var options = {
   key: privateKey,
   cert: certificate,
-  passphrase: process.env.ENV_CERTPASS
+  passphrase: certpass
 };
 
 var server = https.createServer(options, function (req, res) {
