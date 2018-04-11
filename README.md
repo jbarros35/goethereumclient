@@ -3,8 +3,15 @@
 Nodejs geth client, uses web3 for making several requests inside the blockchain private network.
 
 ## Start geth node
-nohup geth --datadir ./myDataDir --networkid 1114 --ws --wsorigins="*" --wsapi "db,eth,net,ssh,miner,web3,personal,admin" --rpc --rpcapi "web3,eth,personal,miner,net,txpool" --rpccorsdomain "*" --ipcdisable &
 
+Run command for genesis json load before
+```
+geth --datadir ./myDataDir --networkid 1114 init ./myGenesis.json
+```
+We can copy inside ./myDataDir/keystore our own keystore file before running bellow command.
+```
+nohup geth --datadir ./myDataDir --networkid 1114 --ws --wsorigins="*" --wsapi "db,eth,net,ssh,miner,web3,personal,admin" --rpc --rpcapi "web3,eth,personal,miner,net,txpool" --rpccorsdomain "*" --ipcdisable &
+```
 ### Blockchain Rest features
 
 We don't expose the network for the outside, cors are not used in this demo, so we just expose a rest feature for interacting using web3 api.
