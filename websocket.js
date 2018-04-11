@@ -32,28 +32,31 @@ wss.on('connection', function connection(ws, req) {
   // get client ip
   const ip = req.connection.remoteAddress;
   console.log('client ip'+ip);
-
    ws.on('message', function incoming(message) {
     console.log('received: %s', message);
   });
+
   // ping client
-  ws.send('something your ip '+ip);
+  ws.send(JSON.stringify({response:'something your ip '+ip}));
 });
 // start server at 443
 server.listen(443);
+
+wss.broadcast = function broadcast(data) {
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
+  });
+};
 
 // tail a geth output file
 var logfile = process.env.ENV_GETHLOG;
 tail = new Tail(logfile);
 
 tail.on("line", function(data) {
-  
-  wss.clients.forEach(function each(ws) {
-    console.log(data);
-    if (ws.isAlive === false) return ws.terminate();
-      ws.isAlive = false;
-      ws.ping(data);
-    });
+  console.log(data);
+  wss.broadcast(JSON.stringify({log:data}));
 });
 
 tail.on("error", function(error) {
