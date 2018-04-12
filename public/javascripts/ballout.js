@@ -1,7 +1,20 @@
 var app = angular.module('myApp', []);
 app.controller('ballOutCtrl', function($scope, $http) {
-   console.log('ballout init');
-   
+
+	// it displays initial authentication
+   $scope.unlock = false;
+   $scope.client_address = null;
+   if ($scope.client_address == null) {
+		$scope.unlock = true;
+		$scope.commandId = 'unlock';
+		// open modal directly from unlock button
+		setTimeout(function() {
+			document.getElementById('unlock').click()        
+		}, 0);
+   } else {
+	   $scope.unlock = false;
+   }
+      
    $scope.command = function (id) {
 	   $scope.commandId = id;
    };
@@ -41,15 +54,17 @@ app.controller('ballOutCtrl', function($scope, $http) {
 					$scope.showMessage = true;
 				    $scope.messageType = "success";
 					$scope.ResponseDetails = "Account created successfully, your address is "+data.address+" you must save it to submit proposals.";
+					$scope.client_address = data.address;
 					$scope.address = null;
 					$scope.password = null;
 					$scope.commandId = null;
+					$scope.openws();
 				}				
 			})
 			.error(function (data, status, header, config) {
 				$scope.showMessage = true;
 				$scope.messageType = "warning";
-				$scope.ResponseDetails = "Error on creation your account passphrase is invalid.";
+				$scope.ResponseDetails = "Error on creation your account "+data.errorMsg;
 			});
    };
   
@@ -71,33 +86,41 @@ app.controller('ballOutCtrl', function($scope, $http) {
 					$scope.showMessage = true;
 				    $scope.messageType = "success";
 					$scope.ResponseDetails = "Account unlocked successfully";
+					$scope.client_address = $scope.address;
 					$scope.address = null;
 					$scope.password = null;
 					$scope.commandId = null;
+					$scope.openws();
 				}				
 			})
 			.error(function (data, status, header, config) {
 				$scope.showMessage = true;
 				$scope.messageType = "warning";
-				$scope.ResponseDetails = "Error on unlocking your account, address or passphrase invalid.";
+				$scope.ResponseDetails = "Error on unlocking your account "+data.errorMsg;
 			});
    };
 
-// Load websocket server url param
-$http.get('/getenv')
+  // OPEN websocket connection after account lockout or creation
+$scope.openws = function() {
+
+     var wsserver = null;
+
+    // Load websocket server url param
+    $http.get('/getenv')
       .success(function(data) {
           console.log(data.url);
-          var wsserver = data.url;
-       $scope.openws(wsserver);
+          wsserver = data.url;
+		  $scope.connectwsserver(wsserver);
    })
      .error(function(data) {
        console.log('error getting websocket variable, set it inside the .env file.');
        return;
    });
 
+};
 
-$scope.openws = function(wsserver) {
-   // if user is running mozilla then use it's built-in WebSocket
+$scope.connectwsserver = function(wsserver) {
+  // if user is running mozilla then use it's built-in WebSocket
   window.WebSocket = window.WebSocket || window.MozWebSocket;
 
   var connection = new WebSocket('wss://'+wsserver, 'echo-protocol');
@@ -105,7 +128,9 @@ $scope.openws = function(wsserver) {
   connection.onopen = function () {
     // connection is opened and ready to use
 	console.log('client opened socket');
-	$scope.send();
+	$scope.send({
+		address: $scope.client_address
+    });
   };
 
   connection.onerror = function (error) {
@@ -128,13 +153,11 @@ $scope.openws = function(wsserver) {
     // handle incoming message
   };
   
-  $scope.send = function() {
+  $scope.send = function(msg) {
   // Tell the server this is client 1 (swap for client 2 of course)
-  connection.send(JSON.stringify({
-   id: "client1"
-   }));
+  connection.send(JSON.stringify(msg));
   };
-};
 
+}
 
 });

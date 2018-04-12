@@ -9,7 +9,7 @@ block content
     div(ng-app="myApp" ng-controller="ballOutCtrl")
      div(class="panel-footer")
       div(class="btn-group")
-       button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('unlock')") Unlock Account
+       button(type="button" id="unlock" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('unlock')" ng-show="client_address") Unlock Account
        button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('create')") Create
      div
       br
@@ -54,5 +54,7 @@ block content
                 span(ng-show="submitForm.password.$error.required") Password is mandatory
             div(class="modal-footer")
               div(class="btn-group")
-               button(type="button" class="btn btn-default" data-dismiss="modal") Close
-               button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="submitCommand()") Submit
+               button(type="button" class="btn btn-default" data-dismiss="modal" ng-hide="unlock") Close
+               button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="submitCommand()" ng-hide="unlock") Submit
+               button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="createAccount()" ng-show="unlock") Create new
+               button(type="button" class="btn btn-default" data-dismiss="modal" ng-click="unlockAccount()" ng-show="unlock") Unlock

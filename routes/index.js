@@ -7,7 +7,7 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
   // set the provider you want from Web3.providers
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  web3 = new Web3(new Web3.providers.HttpProvider("http://"+process.env.ENV_GETH_HTTP));
 }
 
 web3.eth.getCoinbase(function(err, cb) { console.log(err, cb); })
@@ -41,7 +41,7 @@ router.post('/getBalance', function(req, res, next) {
 			res.status(200).json({"balance": response});
 		}).catch((error) => {
 			console.log(error);
-			res.status(500).json(error);
+			res.status(500).json({errorMsg : String(error)});
 		});
 	} catch(e) {
 		next(e);
@@ -58,8 +58,8 @@ router.post('/unlockAccount', function(req, res, next) {
 			console.log(response);
 			res.status(200).json({response: 'ok'});
 		}).catch((error) => {
-			console.log('error'+error);
-			res.status(500).json({error: error});
+			console.log('error at /unlockAccount: '+error);
+			res.status(500).json({errorMsg : String(error)});
 		});
 	} catch(e) {
 		next(e);
@@ -74,8 +74,8 @@ router.post('/createAccount', function(req, res, next) {
 		.then((response) => {
 			res.status(200).json({address: response});
 		}).catch((error) => {
-			console.log(error);
-			res.status(500).json(error);
+			console.log("error at /createAccount: "+ error);
+			res.status(500).json({errorMsg : String(error)});
 		});
 	} catch(e) {
 		next(e);
