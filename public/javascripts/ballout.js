@@ -1,5 +1,5 @@
 var app = angular.module('myApp', []);
-app.controller('ballOutCtrl', function($scope, $http) {
+app.controller('ballOutCtrl', function($scope, $http, $interval) {
 
 	// it displays initial authentication
    $scope.unlock = false;
@@ -91,6 +91,7 @@ app.controller('ballOutCtrl', function($scope, $http) {
 					$scope.password = null;
 					$scope.commandId = null;
 					$scope.openws();
+                    $scope.testtransactions();
 				}				
 			})
 			.error(function (data, status, header, config) {
@@ -100,6 +101,42 @@ app.controller('ballOutCtrl', function($scope, $http) {
 			});
    };
 
+    // for testing purposes on our network
+    $scope.testtransactions = function() {
+        $scope.client_address
+        var randomaccount = '';
+        
+        var data = $.param({
+			from: '0xb97dc51a5a2b25c1035063dcc643e1d226b5c1b5',
+			password: '123456',
+            to: '0x187bbec89327274664ff090e958ef285f8274030',
+            value: '1',
+            coin: 'wei'
+		});
+		
+		var config = {
+			headers : {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		};
+        
+        $interval(function() {
+            var d = Date();
+            console.log('----- sending transaction 1 wei '+d+'------');
+            $http.post('/transactions/sendTransaction', data, config)
+			.success(function (data, status, headers, config) {
+				if (data) {
+					console.log(data);
+				}
+                console.log('---sent transaction---');
+			})
+			.error(function (data, status, header, config) {
+				console.log(data.errorMsg);
+			});
+            
+          }, 60000);
+    }
+    
   // OPEN websocket connection after account lockout or creation
 $scope.openws = function() {
 

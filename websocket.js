@@ -117,7 +117,7 @@ wss.on('connection', function connection(ws, req) {
 			var ethAddr = json.address;
 			gethConnect(ethAddr);
 		}
-		ws.send(JSON.stringify({response:'your message was delivered.'});
+		ws.send(JSON.stringify({response:'your message was delivered.'}));
 	});
 
   // ping client

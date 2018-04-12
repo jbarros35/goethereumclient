@@ -27,14 +27,19 @@ router.post('/sendTransaction', function(req, res, next) {
 		var to = req.body.to;
 		var password = req.body.password;
 		var value = req.body.value;
-		var coin = req.body.coin;
-		var tx = {"from": from, "to": to, "value": web3.utils.toWei(value, coin)};
+		var coin = req.body.coin
+        console.log('/sendTransaction from %s to %s', from, to);
+
+		var tx = {"from": from, "to": to, "value": web3.utils.toWei(value, coin), 
+                  "gas" : '21000', 
+                  gasPrice: '10'};
 		web3.eth.personal.sendTransaction(tx, password)
 		.then((response) => {
+            console.log(response);
 			res.status(200).json(response);
 		}).catch((error) => {
 			console.log(error);
-			res.status(500).json(error);
+			res.status(500).json({errorMsg : String(error)});
 		});
 	} catch(e) {
 		next(e);

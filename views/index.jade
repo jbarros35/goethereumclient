@@ -27,10 +27,10 @@ block content
         div(class="form-group")
          label(for="area") Area of interest:
           select(type="text" class="form-control" name="area" ng-model="area")           
-           option(value="EXP") Enviado para Experimental
-           option(value="ENV") Enviado para PRD
-           option(value="VAL") Validado em PRD
-           option(value="REJ") Rejeitado
+           option(value="EXP") Justice
+           option(value="ENV") Law enforcement
+           option(value="VAL") Technology
+           option(value="REJ") Social security
          span(ng-show="submitForm.area.$error.required") Interest area is mandatory
        div(class="panel-footer")
         div(class="btn-group")
@@ -46,11 +46,11 @@ block content
               p Please put your address and your password.
               div(class="form-group" ng-show="commandId=='unlock' || commandId=='submitBallout'")
                label(for="address") Your public address:
-                input(type="text" class="form-control" name="address" ng-model="address")
+                input(type="text" class="form-control" name="address" ng-model="address" maxlength="42" size="48")
                 span(ng-show="submitForm.address.$error.required") Address is mandatory
               div(class="form-group")
                label(for="numPedidoBase") Password:
-                input(type="password" class="form-control" name="password" ng-model="password")
+                input(type="password" class="form-control" name="password" ng-model="password" maxlength="16")
                 span(ng-show="submitForm.password.$error.required") Password is mandatory
             div(class="modal-footer")
               div(class="btn-group")
