@@ -48,3 +48,9 @@ pm2 start npm start --
 Basic user authentication using address and his passphrase in the blockchain.
 Allow websockets monitor transactions flow inside the network and output on the screen.
 Update user balance and transactions.
+
+## Development environment
+
+Webstorm screenshots
+![webstorm1](screenshots/webstorm1.png "Webstorm dev env")
+
