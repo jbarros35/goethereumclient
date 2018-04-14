@@ -52,13 +52,15 @@ Update user balance and transactions.
 ## Development environment
 
 ### Webstorm screenshots
+Webstorm is a paid tool from Jetbrains supports general Javascript development with several features.
 ![webstorm1](screenshots/webstorm1.png "Webstorm dev env")
 ![webstorm2](screenshots/webstorm2.png "Webstorm dev env")
 #### Running
 ![webstorm1](screenshots/runwebstorm.png "Webstorm dev env")
 
 ### VSCode screenshots and running
-
+VSCode is a tool light and fast for general development, its provided by Microsoft and supports Node development very well.
+I didn't see much difference between Webstorm and VSCode capabilities yet, so you'll be fine on VSCode if don't have a Webstorm license.
 ![vscode](screenshots/vscode1.png "VSCode")
 ![vscode](screenshots/vscode2.png "VSCode")
 ![webstorm1](screenshots/console1.png "Webstorm dev env")
@@ -74,7 +76,7 @@ There are several commands available but you must open rpc and ws sockets, init 
 On anoter console, start geth attach to instance already running, it allow us start miner.
 ![webstorm1](screenshots/gethattach.png "Webstorm dev env")
 ![webstorm1](screenshots/gethrunning.png "Webstorm dev env")
-![webstorm1](screenshots/gethminingstart.png "Webstorm dev env")
+![webstorm1](screenshots/d.png "Webstorm dev env")
 ![webstorm1](screenshots/gethminerstop.png "Webstorm dev env")
 
 ### Running websocket.js
@@ -85,16 +87,15 @@ The webapplication can send transactions, unlock account and create a new one. I
 console2
 Our application starts and print the eth.coinbase
 ![webstorm1](screenshots/web1.png "Webstorm dev env")
-![webstorm1](screenshots/web2.png "Webstorm dev env")
-After unlocking account script sends one transaction per minute for testing our network.
 
-![webstorm1](screenshots/websendtrans1.png "Webstorm dev env")
-
-![webstorm1](screenshots/websendtrans.png "Webstorm dev env")
 That console means we already connected the websocket to server.
 ![webstorm1](screenshots/websocketconnection.png "Webstorm dev env")
 ![webstorm1](screenshots/console1.png "Webstorm dev env")
 
+![webstorm1](screenshots/web2.png "Webstorm dev env")
+After unlocking account script sends one transaction per minute for testing our network.
+![webstorm1](screenshots/websendtrans1.png "Webstorm dev env")
+![webstorm1](screenshots/websendtrans.png "Webstorm dev env")
 Websocket receives a send transaction command.
 
 # Check wiki for updates on this project
