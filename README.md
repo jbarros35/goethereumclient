@@ -51,9 +51,24 @@ Update user balance and transactions.
 
 ## Development environment
 
-Webstorm screenshots
+### Webstorm screenshots
 ![webstorm1](screenshots/webstorm1.png "Webstorm dev env")
 ![webstorm2](screenshots/webstorm2.png "Webstorm dev env")
-### Running
+#### Running
 ![webstorm1](screenshots/runwebstorm.png "Webstorm dev env")
+
+### VSCode screenshots and running
+
+![vscode](screenshots/vscode1.png "VSCode")
+![vscode](screenshots/vscode2.png "VSCode")
+![webstorm1](screenshots/console1.png "Webstorm dev env")
+![webstorm1](screenshots/console2.png "Webstorm dev env")
+![webstorm1](screenshots/consoletrans.png "Webstorm dev env")
+
+### Geth attach
+![webstorm1](screenshots/gethattach.png "Webstorm dev env")
+![webstorm1](screenshots/gethrunning.png "Webstorm dev env")
+![webstorm1](screenshots/gethminingstart.png "Webstorm dev env")
+![webstorm1](screenshots/gethminerstop.png "Webstorm dev env")
+![webstorm1](screenshots/geth transaction.png "Webstorm dev env")
 
