@@ -53,4 +53,7 @@ Update user balance and transactions.
 
 Webstorm screenshots
 ![webstorm1](screenshots/webstorm1.png "Webstorm dev env")
+![webstorm2](screenshots/webstorm2.png "Webstorm dev env")
+### Running
+![webstorm1](screenshots/runwebstorm.png "Webstorm dev env")
 
