@@ -16,6 +16,7 @@ block content
       div(class="alert alert-{{messageType}} alert-dismissible fade in" ng-show="showMessage")
        a(href="#" class="close" data-dismiss="alert" aria-label="close") &times;
        {{ResponseDetails}}
+     div(id="myModal1" class="modal fade" role="dialog" my-modal)
       form(action="" method="POST" class="wrapper" name="submitForm")
         div(class="form-group")
          label(for="numPedidoBase") Proposal Title:
@@ -36,7 +37,7 @@ block content
         div(class="btn-group")
          button(type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="command('submitBallout')") Submit
          button(type="button" class="btn btn-default" ng-click="cleanForm()") Clean
-      div(id="myModal" class="modal fade" role="dialog" my-modal)
+     div(id="myModal" class="modal fade" role="dialog" my-modal)
         div(class="modal-dialog")
           div(class="modal-content")
             div(class="modal-header")

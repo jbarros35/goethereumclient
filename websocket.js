@@ -13,7 +13,6 @@ if (typeof web3 !== 'undefined') {
  var web3 = new Web3(new Web3.providers.WebsocketProvider("ws://"+process.env.ENV_GETH_WS));
 }
 
-Tail = require('tail').Tail;
 // certificate files
 var privateKey  = fs.readFileSync('./key.pem', 'utf8');
 var certificate = fs.readFileSync('./cert.pem', 'utf8');
@@ -34,6 +33,48 @@ var server = https.createServer(options, function (req, res) {
   res.writeHead(200);
   res.end("hello world\n");
 });
+
+var connections = [];
+
+// create secure websocket to client browser.
+const wss = new WebSocket.Server({ server });
+// connect socket
+wss.on('connection', function connection(ws, req) {
+
+    // keep connection
+    var connection = req.connection;
+    connections.push(connection);
+
+    // get client ip
+    const ip = req.connection.remoteAddress;
+    // client id
+    var id = req.headers['sec-websocket-key'];
+
+    // open connection to get for this client
+    ws.on('message', function incoming(message) {
+        console.log('received: %s from %s', message, id);
+        var json = JSON.parse(message);
+        if (json.address != null) {
+            var ethAddr = json.address;
+            gethConnect(ethAddr);
+        }
+        ws.send(JSON.stringify({response:'your message was delivered.'}));
+    });
+
+    // ping client
+    ws.send(JSON.stringify({response:'your client id on server '+id}));
+});
+
+// start server at 443
+server.listen(443);
+
+wss.broadcast = function broadcast(data) {
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
+};
 
 // Start geth connection after client unlock or create new account
 function gethConnect(ethAddr) {
@@ -66,6 +107,7 @@ function gethConnect(ethAddr) {
 					
 					web3.eth.getBalance(ethAddr)
 						.then(function(balance) {
+
 							var lastbalance = web3.utils.toWei(String(balance),'ether');
 							var date = new Date(web3.eth.getBlock(eAddress, true).timestamp * 1000).toLocaleString('en-US',{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
 							var from = pResult.from;
@@ -73,6 +115,7 @@ function gethConnect(ethAddr) {
 							console.log(
 							"TRANSACTION: " + date + ", FROM: " + from +", value: " + value +
 							"current balance: "+lastbalance);
+
 					})
 					.catch(function(err) {
 						console.log('err on getbalance ' + err);
@@ -91,63 +134,3 @@ function gethConnect(ethAddr) {
 		console.log("Unable to connect to geth ws, " +d);
 	};
 };
-
-
-var connections = [];
-
-// create secure websocket to client browser.
-const wss = new WebSocket.Server({ server });
-// connect socket
-wss.on('connection', function connection(ws, req) {
- 
-	// keep connection
-	var connection = req.connection;
-	connections.push(connection);
-	
-	// get client ip
-	const ip = req.connection.remoteAddress;
-	// client id
-	var id = req.headers['sec-websocket-key'];
-  
-	// open connection to get for this client 
-	ws.on('message', function incoming(message) {
-		console.log('received: %s from %s', message, id);
-		var json = JSON.parse(message);
-		if (json.address != null) {
-			var ethAddr = json.address;
-			gethConnect(ethAddr);
-		}
-		ws.send(JSON.stringify({response:'your message was delivered.'}));
-	});
-
-  // ping client
-  ws.send(JSON.stringify({response:'your client id on server '+id}));
-});
-
-// start server at 443
-server.listen(443);
-
-wss.broadcast = function broadcast(data) {
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
-    }
-  });
-};
-
-/*
-// tail a geth output file
-var logfile = process.env.ENV_GETHLOG;
-tail = new Tail(logfile);
-
-tail.on("line", function(data) {
-  console.log(data);
-  wss.broadcast(JSON.stringify({log:data}));
-});
-
-tail.on("error", function(error) {
-  console.log('ERROR: ', error);
-});
-
-tail.watch();
-*/

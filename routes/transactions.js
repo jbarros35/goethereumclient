@@ -46,15 +46,5 @@ router.post('/sendTransaction', function(req, res, next) {
 	}
 });
 
- 
-/* doesn't works on http provider
-web3.eth.filter("pending").watch(
-    function(error,result){
-        if (!error) {
-            console.log('Tx Hash: ' + result);
-        }
-    }
-);
-*/
 
 module.exports = router;
