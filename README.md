@@ -65,10 +65,36 @@ Update user balance and transactions.
 ![webstorm1](screenshots/console2.png "Webstorm dev env")
 ![webstorm1](screenshots/consoletrans.png "Webstorm dev env")
 
+### Start your geth instance
+There are several commands available but you must open rpc and ws sockets, init with myGenesis.json providing a source account, mining difficulty and alloc some ether to it.
+![webstorm1](screenshots/rungeth1.png "Webstorm dev env")
+![webstorm1](screenshots/gethtransaction.png "Webstorm dev env")
+
 ### Geth attach
+On anoter console, start geth attach to instance already running, it allow us start miner.
 ![webstorm1](screenshots/gethattach.png "Webstorm dev env")
 ![webstorm1](screenshots/gethrunning.png "Webstorm dev env")
 ![webstorm1](screenshots/gethminingstart.png "Webstorm dev env")
 ![webstorm1](screenshots/gethminerstop.png "Webstorm dev env")
-![webstorm1](screenshots/geth transaction.png "Webstorm dev env")
 
+### Running websocket.js
+Websocket.js is a node program wich start https instance with certificate, start wesocket connection to geth and receive web client connections.
+
+### Running web application
+The webapplication can send transactions, unlock account and create a new one. It runs on npm start or pm2 start npm -- start command.
+console2
+Our application starts and print the eth.coinbase
+![webstorm1](screenshots/web1.png "Webstorm dev env")
+![webstorm1](screenshots/web2.png "Webstorm dev env")
+After unlocking account script sends one transaction per minute for testing our network.
+
+![webstorm1](screenshots/websendtrans1.png "Webstorm dev env")
+
+![webstorm1](screenshots/websendtrans.png "Webstorm dev env")
+That console means we already connected the websocket to server.
+![webstorm1](screenshots/websocketconnection.png "Webstorm dev env")
+![webstorm1](screenshots/console1.png "Webstorm dev env")
+
+Websocket receives a send transaction command.
+
+# Check wiki for updates on this project
